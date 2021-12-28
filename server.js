@@ -22,6 +22,16 @@ function createNote(body, notesArr){
 
 }
 
+function deleteNote (id, notesArr){
+     const deleted = notesArr.find(note=> note.id ===id);
+     notesArr = notesArr.filter(note => note.id !== id);
+     fs.writeFileSync(
+         path.join(__dirname, './db/db.json'), 
+         JSON.stringify({notes: notesArr}, null ,"\t")
+     );
+     return deleted;
+}
+
 
 //api routes
 app.get('/api/notes', (req, res)=>{
@@ -38,6 +48,19 @@ app.post('/api/notes',(req, res)=>{
         console.log(note);
     }
 });
+app.delete('/api/notes/:id', (req, res)=>{
+    const { id }= req.params;
+    if(!id){
+        console.log('error');
+    } 
+    else{
+        const deletedNote = deleteNote(id, notes);
+        res.json(deletedNote);
+        console.log(deletedNote);
+    }
+    
+
+})
 
 //html routes
 app.get("/", (req , res)=>{
