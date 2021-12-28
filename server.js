@@ -10,6 +10,7 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
+//add new note to notes array and write the result to json file
 function createNote(body, notesArr){
     body.id = Date.now().toString();
     const note = body;
@@ -22,6 +23,7 @@ function createNote(body, notesArr){
 
 }
 
+//delete note from notes array and the write the new array to json file
 function deleteNote (id, notesArr){
      const deleted = notesArr.find(note=> note.id ===id);
      notesArr = notesArr.filter(note => note.id !== id);
@@ -38,6 +40,7 @@ app.get('/api/notes', (req, res)=>{
     res.json(notes)
 });
 
+//add note route
 app.post('/api/notes',(req, res)=>{
     if(!req.body){
         console.log('error');
@@ -48,6 +51,8 @@ app.post('/api/notes',(req, res)=>{
         console.log(note);
     }
 });
+
+// delete note route
 app.delete('/api/notes/:id', (req, res)=>{
     const { id }= req.params;
     if(!id){
