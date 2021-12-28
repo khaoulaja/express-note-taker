@@ -1,10 +1,10 @@
-# express-note-taker
+# Note Taker
 
   ## Description 
 
   Note Taker is an application that can be used to write, save and delete notes. This application uses an Express.js back end and saves and retrieves note data from a JSON file.<br/><br/>
 
-  ![sample](./team-generator.png)
+  ![sample](./note-taker.gif)
 
   ## Installation
   
@@ -12,15 +12,13 @@
   
   ## Usage 
 
-   To use this application run : <br/> node index.js <br/><br/>
-   For a demonstration about how to generate the team profile visit the [walkthrough video](https://watch.screencastify.com/v/giDjMHUtgnU9RHnG41zU)
+   To use this application locally, you should first start the server with the following command: <br/> npm start <br/>
+   Once the server has started, navigate to http://localhost:3001/ in your browser. <br/><br/>
+   
+   For a deployed link, visit [Note Taker](https://infinite-dusk-76588.herokuapp.com/).
 
- ## Tests
-
-  Run the following command for tests : <br/> npm run test
 
   ## License
 
   This work is licensed under [MIT License](https://opensource.org/licenses/MIT).<br/>
   Made with ❤ by Khaoula Jabour <br/>
-  &copy; 2021 Team-Profile-Builder

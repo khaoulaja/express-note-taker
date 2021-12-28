@@ -2,13 +2,11 @@ const PORT = process.env.PORT || 3001;
 const express = require('express');
 const fs = require('fs');
 const app = express();
-const cors=require('cors');
 const path = require('path');
 const {notes} = require('./db/db.json');
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(cors())
 app.use(express.static('public'));
 
 //add new note to notes array and write the result to json file
