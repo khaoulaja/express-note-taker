@@ -1,85 +1,20 @@
-const PORT = process.env.PORT || 3001;
+const apiRoutes = require('./routes/apiRoutes');
+const htmlRoutes = require('./routes/htmlRoutes');
 const express = require('express');
-const fs = require('fs');
+const PORT = process.env.PORT || 3001;
 const app = express();
-const path = require('path');
-const {notes} = require('./db/db.json');
 
+// parse incoming string or array data
 app.use(express.urlencoded({extended: true}));
+// parse incoming json data
 app.use(express.json());
+//make files (of public folder) static resources 
 app.use(express.static('public'));
 
-//add new note to notes array and write the result to json file
-function createNote(body, notesArr){
-    body.id = Date.now().toString();
-    const note = body;
-    notesArr.push(note);
-    fs.writeFileSync(
-        path.join(__dirname, './db/db.json'),
-        JSON.stringify({notes : notesArr}, null, 2)
-    );
-    return note;
-
-}
-
-//delete note from notes array and the write the new array to json file
-function deleteNote (id, notesArr){
-     const deleted = notesArr.find(note=> note.id ===id);
-     newArr = notesArr.filter(note => note.id !== id);
-     fs.writeFileSync(
-         path.join(__dirname, './db/db.json'), 
-         JSON.stringify({notes: newArr}, null ,2)
-     );
-     return deleted;
-}
+app.use('/api', apiRoutes);
+app.use('/', htmlRoutes);
 
 
-//api routes
-app.get('/api/notes', (req, res)=>{
-    res.json(notes)
-});
-
-//add note route
-app.post('/api/notes',(req, res)=>{
-    if(!req.body){
-        console.log('error');
-    }
-    else{
-        const note = createNote(req.body, notes);
-        res.json(note);
-        console.log(note);
-    }
-});
-
-// delete note route
-app.delete('/api/notes/:id', (req, res)=>{
-    const { id }= req.params;
-    if(!id){
-        res.status(404).end();
-        console.log('error');
-    } 
-    else{
-        const deletedNote = deleteNote(id, notes);
-        res.sendStatus(204).end()
-       // res.json(deletedNote);
-        console.log(deletedNote);
-    }
-    
-
-});
-
-//html routes
-app.get("/", (req , res)=>{
-    res.sendFile(path.join(__dirname, './public/index.html'));
-});
-
-app.get('/notes', (req, res)=>{
-    res.sendFile(path.join(__dirname, './public/notes.html'))
-});
-
-app.get("*", (req , res)=>{
-    res.sendFile(path.join(__dirname, './public/index.html'));
-});
 
 app.listen(PORT , ()=>{
     console.log(`Server running on port ${PORT}!`);
